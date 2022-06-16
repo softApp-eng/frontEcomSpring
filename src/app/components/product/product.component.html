@@ -1,25 +1,38 @@
 <div *ngIf="products">
-<div class="container">
-    <div class="row">
-        <div *ngFor="let p of products._embedded.products" class="col-md-4">
-            <div class="card m-1" style="width: 18rem;">
-                <img src="{{this.CatalogueService.host+'/photoProducts/'+p.id}}" 
-              
-                class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title">
-                   
-                    {{p.name}}
-                  
-                  </h5>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                  <p href="#" class="btn btn-primary">{{p.currentPrice | number : '0.2'}}</p>
-
-
-                </div>
-              </div>
-        </div>
+  <div class="container">
+    <div>
+      <h3>{{title}}</h3>
     </div>
-</div>
-</div>
+    <div class="row">
+      <div *ngFor="let p of products._embedded.products" class="col-md-4">
+        <div class="card m-1" style="width: 18rem">
+          <img
+            src="{{ this.CatalogueService.host + '/photoProducts/' + p.id + '?ts='+getTs()}}"
+            class="card-img-top"
+            alt="..."
+          />
 
+          <div class="card-body">
+            <h5 class="card-title">
+              {{ p.name }}
+            </h5>
+          <p>{{ p.id }}</p> 
+            <p href="#" class="btn btn-primary">
+              {{ p.currentPrice | number: "0.2" }}
+            </p>
+            <p>
+              <button (click)="onEditPhoto(p)">
+                <i class="fa fa-edit"></i>
+              </button>
+            </p>
+            <p *ngIf="editPhoto && currentProduct == p">
+              <input type="file" (change)="onSelectedFile($event)" />
+              <button (click)="uploadPhoto()">Upload</button>
+              {{progress}}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
